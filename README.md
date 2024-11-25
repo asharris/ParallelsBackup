@@ -3,7 +3,7 @@
 ## Introduction   
 backupParallels.py is a Python3 script to make complete backups of Virtual Machines (VM) running under Parallels. Tar is used to create a single file of all the files in the VM and the file is then compressed before being copied to the destination.
 
-Before a backup is started, any running VMs are suspended. The cumulative runtime for the VM is checked and if it is greater than the cumulative runtime the last time the VM was backed up a backup is made. If the VM was running, it is resumed after a copy is taken.
+Before a backup is started, any running VMs are suspended. The cumulative runtime for the VM is checked and if it is greater than the cumulative runtime the last time the VM was backed up, a backup is made. If the VM was running, it is resumed after a copy is taken.
 
 Optional commands can be run before a VM is suspended or after it is resumed.
 
@@ -59,7 +59,7 @@ The configuration file is split into several sections:
 2. **prlctl** This is the full path to the Parallels program '_prlctl_'. This program is used to get the names of the VBMs, the status of the VM, the location of the VM files and the cumulative uptime.  
 3. **tar** The full path name of the tar program used to create the tarball.  
 4. **backupRotations** If not set this defaults to '3'. Backups are named by the compressed tarball inclusive of the backup number.  
-5. **BeforeBackup**Any commands to run before any backups are made. This is run once when the BackupParallels program starts  
+5. **BeforeBackup** Any commands to run before any backups are made. This is run once when the BackupParallels program starts  
 6. **AfterBackup** Any commands to run before BackupParallels finishes.  
 
 ## scp
@@ -70,7 +70,7 @@ The configuration file is split into several sections:
 **compressedExtension** The postfix the the compression program uses to signify compressed files   
 **arguments** Any arguments to pass to the compression program. These can signify forcing overwrite of the output file ot the level of compression. Several examples are shown the in example configuration file  
 
-## VM Name (The actual name of the VM)
+## VM Name (The name of the VM as given by ```prlctl list -a```)
 **BeforeSuspend** Any programs to run before a VM is suspended for backup. Multiple lines can be entertd with subsequent lines indented.  
 **AfterResume** Any programs to run after a VM is resumed. Multiple lines can be entered with subsequent lines indented.  
 

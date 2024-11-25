@@ -69,24 +69,6 @@ def run(params, systimeout = 30):
   return [p.returncode, std.decode(), ste.decode()]
 
 """
-  ThreadWithReturnValue:
-        Run a command in a thread and return the command when join has completed.
-"""
-class ThreadWithReturnValue(Thread):
-    def __init__(self, group=None, target=None, name=None, args=(), kwargs=None, *, daemon=None):
-        Thread.__init__(self, group, target, name, args, kwargs, daemon=daemon)
-
-        self._return = None
-
-    def run(self):
-        if self._target is not None:
-            self._return = self._target(*self._args, **self._kwargs)
-
-    def join(self, timeout = 0):
-        Thread.join(self)
-        return self._return
-
-"""
   resume:
       If a VM is in the suspended state, then resume it.
       If the VM is Debian OOH then mount the ooh-system share and restart VS Code
