@@ -37,6 +37,8 @@ If an output (--output) is not specified, the output is to stdout.
 7. The tarball is compressed using the utility specified in the .ini file
 8. _SCP_ is used to copy the compressed tarball to the destination, or destinations. If more than one destination is specified, the scp copies are run concurrently
 
+**N.B.** By using tar on the suspended VM without compression is very much faster than creating a tarball with compression. This is done to minimise the amount of time a VM is held in the suspended state. 
+
 ## The configuration file   
 The configuration file can be one of:   
 * ~/.backupParallels.ini   
@@ -44,7 +46,7 @@ The configuration file can be one of:
 
 and must be readable by the program itself.
 
-The first file found is used. If neither file is found, the program exists with an error. If both files are found, then ~/.backupParallels.ini is used.
+The first file found is used. If neither file is found, the program exits with an error. If both files exist, then ~/.backupParallels.ini is used.
 
 The configuration file is split into several sections:
 * main
