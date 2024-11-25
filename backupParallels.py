@@ -283,19 +283,19 @@ def doBackup(vm, sourceLocation, backupNumber, state):
 def getSettings():
   global scpDestinations, cdir, compressProgram, compressExtension, compressArgs, backupRotations, prlctl, tar
 
-
+  config = None
   configFiles = [os.path.expanduser('~/') + '.backupParallels.ini', '/etc/backupParallels.ini']
   for fname in configFiles:
-    if os.path.exists(configFiles):
+    if os.path.exists(fname):
       config = configparser.ConfigParser()
+      try:
+        config.read(fname)
+      except Exception as e:
+        plog(f"Error reading from configuration file: {fname}: {e}")
+        exit(1)
       break
-  plog(f"Error: Configuration {configFile} not found")
-  exit(1)
-
-  try:
-    config.read(configFile)
-  except Exception as e:
-    plog(f"Error reading from configuration file: {configFile}: {e}")
+  if config == None:
+    plog(f"Error: Configuration {configFiles} not found")
     exit(1)
 
   try:
