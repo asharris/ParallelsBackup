@@ -55,27 +55,27 @@ The configuration file is split into several sections:
 * VM Name (the name of a VM as returned by ```prlctl list -a```). There can be one of these for each of the VMs on the host.
 
 ### main
-1. **StatusDirectory** The status directory is the location where _.last_ files are created and updated. The director must exist before the backup program is run and have read/write permission. The status file contains the last backup number and the cumulative uptime at the time of the last backup If the file does not exist then a backup is forced and the file is created.
-2. **prlctl** This is the full path to the Parallels program '_prlctl_'. This program is used to get the names of the VBMs, the status of the VM, the location of the VM files and the cumulative uptime.
-3. **tar** The full path name of the tar program used to create the tarball.
-4. **backupRotations** If not set this defaults to '3'. Backups are named by the compressed tarball inclusive of the backup number.
-5. **BeforeBackup**Any commands to run before any backups are made. This is run once when the BackupParallels program starts
-6. **AfterBackup** Any commands to run before BackupParallels finishes.
+1. **StatusDirectory** The status directory is the location where _.last_ files are created and updated. The director must exist before the backup program is run and have read/write permission. The status file contains the last backup number and the cumulative uptime at the time of the last backup If the file does not exist then a backup is forced and the file is created.  
+2. **prlctl** This is the full path to the Parallels program '_prlctl_'. This program is used to get the names of the VBMs, the status of the VM, the location of the VM files and the cumulative uptime.  
+3. **tar** The full path name of the tar program used to create the tarball.  
+4. **backupRotations** If not set this defaults to '3'. Backups are named by the compressed tarball inclusive of the backup number.  
+5. **BeforeBackup**Any commands to run before any backups are made. This is run once when the BackupParallels program starts  
+6. **AfterBackup** Any commands to run before BackupParallels finishes.  
 
 ## scp
-1. **destinations** A list of destinations normally in the format <user>@<destination>:<destination folder>. Multiple destinations can be entered one line at a time (subsequent lines should be indented and the configuration reader will add all of them). If multiple destinations are entered, they will be run simultaneously. The next stage in the backup will not be run until all destination copies have been completed.
+1. **destinations** A list of destinations normally in the format ```<user>@<destination>:<destination folder>```. Multiple destinations can be entered one line at a time (subsequent lines should be indented and the configuration reader will add all of them). If multiple destinations are entered, they will be run simultaneously. The next stage in the backup will not be run until all destination copies have been completed.  
 
 ## compression
-**program** The full pathname to the compression program to use
-**compressedExtension** The postfix the the compression program uses to signify compressed files 
-**arguments** Any arguments to pass to the compression program. These can signify forcing overwrite of the output file ot the level of compression. Several examples are shown the in example configuration file
+**program** The full pathname to the compression program to use    
+**compressedExtension** The postfix the the compression program uses to signify compressed files   
+**arguments** Any arguments to pass to the compression program. These can signify forcing overwrite of the output file ot the level of compression. Several examples are shown the in example configuration file  
 
 ## VM Name (The actual name of the VM)
-**BeforeSuspend** Any programs to run before a VM is suspended for backup. Multiple lines can be entertd with subsequent lines indented.
-**AfterResume** Any programs to run after a VM is resumed. Multiple lines can be entered with subsequent lines indented.
+**BeforeSuspend** Any programs to run before a VM is suspended for backup. Multiple lines can be entertd with subsequent lines indented.  
+**AfterResume** Any programs to run after a VM is resumed. Multiple lines can be entered with subsequent lines indented.  
 
 ## Notes on _BeforeBackup_, _AfterBackup_, _BeforeSuspend_ and _AfterResume_.  
-In each of these entries, multiple lines can be entered, with subsequent lines on the line following the first line and indented, such as:
+In each of these entries, multiple lines can be entered, with subsequent lines on the line following the first line and indented, such as:  
 ```
 BeforeSuspend =  killall Electron
         	diskutil unmount force /Volumes/<mount> &
