@@ -1,7 +1,7 @@
 # Parallels Backup
 
 ## Introduction   
-backupParallels.py is a Python3 script to make complete backups of Virtual Machines (VM) running under Parallels. Tar is used to create a single file of all the files in the VM and the file is then compressed before being copied to the destination.
+backupParallels.py is a Python3 script to make complete backups of Virtual Machines (VM) running under Parallels. Tar is used to create a single file (tarball) of all the files in the VM and the file is then compressed before being copied to the destination.
 
 Before a backup is started, any running VMs are suspended. The cumulative runtime for the VM is checked and if it is greater than the cumulative runtime the last time the VM was backed up, a backup is made. If the VM was running, it is resumed after a copy is taken.
 
@@ -92,3 +92,20 @@ AfterResume =   +Mounting /Volumes/<mount>
 If a lines starts with a '-' (minus sign) then the command is **not** echoed to the output. This is useful if the command contains sensitive information such as a password.
 
 if the line starts with a '+' (addition sign), then the command is not run, but simply echoed to the output. This is useful if a command is not echoed (using a '-' due to sensitive information, but a note in the output stream is still wanted, (as in the first two lines in _AfterResume_ above.)
+
+### Restoring a backup
+Restoring a backup file requires three steps:   
+1. Decompress the backup file   
+2. Extract the tarball   
+3. Open in Parallels Desktop   
+
+The program used to decompress the file is dependent on the compression program used to compress the file. For:   
+* lz4 use ```lz4 -d```   
+* gz2 or pgzip2 use ```bzip2 -d```   
+* gz use  ```gunzip```  
+* xz use ```xz -d```  
+
+To extract a tarball, change directory (cd <directory name>) to where the VM is to be stored and then:  
+```tar cf <decompressed filename>```   
+
+To open in Parallels you can simply add the new VM to the list of VMs in Parallels.
