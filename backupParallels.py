@@ -71,8 +71,7 @@ def run(params, systimeout = 30):
 """
   resume:
       If a VM is in the suspended state, then resume it.
-      If the VM is Debian OOH then mount the ooh-system share and restart VS Code
-      If the VM is Debian RFQ then remount the rfq-sys file share
+      If a section exists in the config file with this VM name then execute it's parts
 """
 def resume(vm):
   global errorCount
