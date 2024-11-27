@@ -263,9 +263,9 @@ def doBackup(vm, sourceLocation, backupNumber, state):
   nBackups += 1
 
 def getSettings():
-  global scpDestinations, cdir, compressProgram, compressExtension, compressArgs, backupRotations, prlctl, tar
+  global scpDestinations, cdir, compressProgram, compressExtension
+  global compressArgs, backupRotations, prlctl, tar, config
 
-  config = None
   configFiles = [os.path.expanduser('~/') + '.backupParallels.ini', '/etc/backupParallels.ini']
   for fname in configFiles:
     if os.path.exists(fname):
@@ -295,7 +295,7 @@ def getSettings():
     # Backup Rotaions
     backupRotations = int(config['main'].get('backupRotations', 3))
   except Exception as e:
-    plog(f"Error reading from the configuration: {configFile}: {e}")
+    plog(f"Error reading from the configuration: {configFiles}: {e}")
     exit(1)
   return config
 
