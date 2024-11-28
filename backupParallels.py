@@ -123,6 +123,8 @@ def runSection(sectionHeading, sectionName):
     allCmds = section.get(sectionName, '').split("\n")
     for cmd in allCmds:
       cmd = cmd.strip()       # Remove leading or trailing space
+      if cmd == '':
+        continue
       if cmd.startswith('+'): # Just print the line - don't run it
         cmd = cmd[1:]
         plog(cmd)
