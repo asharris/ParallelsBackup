@@ -222,7 +222,7 @@ def uptimeToSecs(uptime):
             Each of the scps are done concurrently, as the limiting factor is most
             likely to be the destination writing.
 """
-def doBackup(vm, sourceLocation, backupNumber, state):
+def doBackup(vm, sourceLocation, backupNumber, originalState):
   global backupList, nBackups, errorCount
 
   # Do a tar, without compression as we can do this a lot faster
@@ -234,7 +234,7 @@ def doBackup(vm, sourceLocation, backupNumber, state):
   if out[0] != 0:
     plog(f"Error of tar of {tarFile}: {out[2]}")
     errorCount +=1
-  if state == 'running':
+  if originalState == 'running':
     resume(vm)
   # Compress the tar file
   sizeOrg = os.path.getsize(tarFile)
@@ -322,10 +322,10 @@ for line in lines:
     if len(s) > 3:
       #Fields are: 0: VM id, 1: Status, 2: The '-' char, 3: VM Name
       vm = s[3]
-      state = s[1]
+      originalState = s[1]
       plog(f"{vm}")
       plog("-" * len(vm))
-      if state == 'running':
+      if originalState == 'running':
         suspend(vm)
       # Get the location for the VM
       sourceLocation = extractValue(vm, "Home")
@@ -354,7 +354,7 @@ for line in lines:
         backupNumber = lastBackupNumber + 1
         if backupNumber > backupRotations:
           backupNumber = 0
-        doBackup(vm, sourceLocation, backupNumber, state)
+        doBackup(vm, sourceLocation, backupNumber, originalState)
         # update the cdir file with the backup number and the total uptime
         try:
           f = open(cdirFile, 'w')

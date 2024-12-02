@@ -66,9 +66,12 @@ The configuration file is split into several sections:
 1. **destinations** A list of destinations normally in the format ```<user>@<destination>:<destination folder>```. Multiple destinations can be entered one line at a time (subsequent lines should be indented and the configuration reader will add all of them). If multiple destinations are entered, they will be run simultaneously. The next stage in the backup will not be run until all destination copies have been completed.  
 
 ## compression
+Choosing the best compression program to use will most likely be a trade-off between the compression ratio and the time taken to compress. If multi cores can be given over to compression, programs like xz and pbzip2 can take advantage of the cores available and can be much faster.   
+Choosing the optimal program will probably require some experimentation. If the compression takes too long, the backup can take a very long time. The compression ratio is important if the destination for the backups is space limited, and if the backups are being made over a slow network (perhaps to an off-site location), then getting the maximum compression is probably an important factor to take into account. The example configuration file provides multiple compression options. These options are set as follows:   
+
 **program** The full pathname to the compression program to use    
 **compressedExtension** The postfix the the compression program uses to signify compressed files   
-**arguments** Any arguments to pass to the compression program. These can signify forcing overwrite of the output file ot the level of compression. Several examples are shown the in example configuration file  
+**arguments** Any arguments to pass to the compression program. These can signify forcing overwrite of the output file or the level of compression. Several examples are shown the in example configuration file  
 
 ## VM Name (The name of the VM as given by ```prlctl list -a```)
 **BeforeSuspend** Any programs to run before a VM is suspended for backup. Multiple lines can be entertd with subsequent lines indented.  
@@ -77,7 +80,7 @@ The configuration file is split into several sections:
 ## Notes on _BeforeBackup_, _AfterBackup_, _BeforeSuspend_ and _AfterResume_.  
 In each of these entries, multiple lines can be entered, with subsequent lines on the line following the first line and indented, such as:  
 ```
-BeforeSuspend =  killall Electron
+BeforeSuspend = killall Electron
         	diskutil unmount force /Volumes/<mount> &
 		-sleep 5
 		umount -f /Volumes/<mount> 2>/dev/null &
@@ -99,13 +102,16 @@ Restoring a backup file requires three steps:
 2. Extract the tarball   
 3. Open in Parallels Desktop   
 
-The program used to decompress the file is dependent on the compression program used to compress the file. For:   
+The program used to decompress the file is dependent on the compression program used to compress the file. For instance for:   
 * lz4 use ```lz4 -d```   
 * gz2 or pgzip2 use ```bzip2 -d```   
 * gz use  ```gunzip```  
 * xz use ```xz -d```  
 
 To extract a tarball, change directory (cd <directory name>) to where the VM is to be stored and then:  
-```tar cf <decompressed filename>```   
+```tar xf <decompressed filename>```   
+
+It is also possible to do the decompression and tar extraction in a single line. i.e.:
+``` gunzip < <compressed tarball> | tar x```
 
 To open in Parallels you can simply add the new VM to the list of VMs in Parallels.
