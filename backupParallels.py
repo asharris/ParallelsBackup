@@ -239,7 +239,7 @@ def doBackup(vm, sourceLocation, backupNumber, originalState):
   # Compress the tar file
   sizeOrg = os.path.getsize(tarFile)
   plog(f"Compressing {tarFile} using {compressProgram}")
-  out = run([compressProgram] + compressArgs + [tarFile], 3600) 
+  out = run([compressProgram] + compressArgs + [tarFile], compressTimeout) 
   if out[0] != 0:
     plog(f"Error during compression of {tarFile} : {out[2]}")
     errorCount +=1
@@ -264,7 +264,7 @@ def doBackup(vm, sourceLocation, backupNumber, originalState):
   nBackups += 1
 
 def getSettings():
-  global scpDestinations, cdir, compressProgram, compressExtension
+  global scpDestinations, cdir, compressProgram, compressExtension, compressTimeout
   global compressArgs, backupRotations, prlctl, tar, config
 
   configFiles = [os.path.expanduser('~/') + '.backupParallels.ini', '/etc/backupParallels.ini']
@@ -291,6 +291,8 @@ def getSettings():
     compressProgram = compression.get('program', '/usr/bin/gzip')
     compressExtension = compression.get('compressedExtension', 'gz')
     compressArgs = compression.get('arguments', '-f').split()
+    compressTimeout = int(compression.get('timeout', '3600'))
+
     # Setup the Status Directory
     cdir = config['main']['StatusDirectory']
     # Backup Rotaions
