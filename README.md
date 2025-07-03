@@ -55,8 +55,8 @@ The configuration file is split into several sections:
 * VM Name (the name of a VM as returned by ```prlctl list -a```). There can be one of these for each of the VMs on the host.
 
 ### main
-1. **StatusDirectory** The status directory is the location where _.last_ files are created and updated. The director must exist before the backup program is run and have read/write permission. The status file contains the last backup number and the cumulative uptime at the time of the last backup If the file does not exist then a backup is forced and the file is created.  
-2. **prlctl** This is the full path to the Parallels program '_prlctl_'. This program is used to get the names of the VBMs, the status of the VM, the location of the VM files and the cumulative uptime.  
+1. **StatusDirectory** The status directory is the location where _.last_ files are created and updated. The directory must exist before the backup program is run and have read/write permission. The status file contains the last backup number and the cumulative uptime at the time of the last backup If the file does not exist then a backup is forced and the file is created.  
+2. **prlctl** This is the full path to the Parallels program '_prlctl_'. This program is used to get the names of the VMs, the status of the VM, the location of the VM files and the cumulative uptime.  
 3. **tar** The full path name of the tar program used to create the tarball.  
 4. **backupRotations** If not set this defaults to '3'. Backups are named by the compressed tarball inclusive of the backup number.  
 5. **BeforeBackup** Any commands to run before any backups are made. This is run once when the BackupParallels program starts  
