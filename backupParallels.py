@@ -141,10 +141,10 @@ def runSection(sectionHeading, sectionName):
           Copies the file to the destination
 """
 def copyByScp(frm, to):
-  global errorCount
+  global errorCount, scpTimeout
 
   plog(f'scp {frm} {to}')
-  out = run(['scp', frm, to], systimeout=7200)
+  out = run(['scp', frm, to], systimeout=scpTimeout)
   if out[0] != 0:
     plog(f"scp to {to} failed: {out[2]}")
     errorCount +=1
@@ -264,7 +264,7 @@ def doBackup(vm, sourceLocation, backupNumber, originalState):
   nBackups += 1
 
 def getSettings():
-  global scpDestinations, cdir, compressProgram, compressExtension, compressTimeout
+  global scpDestinations, cdir, compressProgram, compressExtension, compressTimeout, scpTimeout
   global compressArgs, backupRotations, prlctl, tar, config
 
   configFiles = [os.path.expanduser('~/') + '.backupParallels.ini', '/etc/backupParallels.ini']
@@ -285,7 +285,9 @@ def getSettings():
     prlctl = config['main'].get('prlctl', '/usr/local/bin/prlctl')
     tar = config['main'].get('tar', '/usr/bin/tar')
     # Setup the scpDestinations
-    scpDestinations = config['scp']['destinations'].split("\n")
+    scp = config['scp']
+    scpDestinations = scp.get('destinations', '').split("\n")
+    scpTimeout = int(scp.get('timeout', '7200'))
     # Setup the compression program
     compression = config['compression']
     compressProgram = compression.get('program', '/usr/bin/gzip')
