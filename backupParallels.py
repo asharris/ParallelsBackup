@@ -223,7 +223,7 @@ def uptimeToSecs(uptime):
             likely to be the destination writing.
 """
 def doBackup(vm, sourceLocation, backupNumber, originalState):
-  global backupList, nBackups, errorCount
+  global backupList, nBackups, errorCount, scpTimeout
 
   # Do a tar, without compression as we can do this a lot faster
   # and that means we can resume a suspended VM much more quickly
@@ -255,7 +255,7 @@ def doBackup(vm, sourceLocation, backupNumber, originalState):
     x.start()
   # Wait until they have all finished
   for index, thread in enumerate(threads):
-    thread.join(7200.0)
+    thread.join(scpTimeout)
   # Remove the temp file
   os.unlink(f"{tarFile}.{compressExtension}") 
   nCopies = len(scpDestinations)
