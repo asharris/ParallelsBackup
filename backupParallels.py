@@ -223,7 +223,7 @@ def uptimeToSecs(uptime):
             likely to be the destination writing.
 """
 def doBackup(vm, sourceLocation, backupNumber, originalState):
-  global backupList, nBackups, errorCount, scpTimeout
+  global backupList, nBackups, errorCount, scpTimeout, nCopies
 
   # Do a tar, without compression as we can do this a lot faster
   # and that means we can resume a suspended VM much more quickly
@@ -369,4 +369,4 @@ for line in lines:
       else:
         plog(f"Not backing up {vm}")
 runSection('main','AfterBackup')
-plog(f"Completed {nBackups} backups with {errorCount} errors : {backupList}")
+plog(f"Completed {nBackups} backups to {nCopies} destination(s) with {errorCount} errors : {backupList}")
