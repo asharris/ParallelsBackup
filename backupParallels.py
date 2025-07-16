@@ -211,6 +211,12 @@ def uptimeToSecs(uptime):
   return tseconds
 
 """
+  return 's' if n does not equal 1
+"""
+def s(n):
+  return '' if n == 1 else 's'
+
+"""
   doBackup:
             This performs the following:
               1: Tar
@@ -369,4 +375,6 @@ for line in lines:
       else:
         plog(f"Not backing up {vm}")
 runSection('main','AfterBackup')
-plog(f"Completed {nBackups} backups to {nCopies} destination(s) with {errorCount} errors : {backupList}")
+plog(f"Completed {nBackups} backup{s(nBackups)} "
+     f"to {nCopies} destination{s(nCopies)} "
+     f"with {errorCount} error{s(errorCount)} : {backupList}")
