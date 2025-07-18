@@ -27,7 +27,7 @@ tar = ''
 errorCount = 0
 wasRunning = []
 backupList = ''
-nBackups = 0
+nBackups = int(0)
 
 parser = argparse.ArgumentParser(description = 'Backup Parallels VMs')
 parser.add_argument('-o', '--output', default = '', help = 'Append output to a file')
@@ -214,6 +214,7 @@ def uptimeToSecs(uptime):
   return 's' if n does not equal 1
 """
 def s(n):
+  n = int(n)
   return '' if n == 1 else 's'
 
 """
@@ -268,6 +269,7 @@ def doBackup(vm, sourceLocation, backupNumber, originalState):
   plog(f"{nCopies} copies of {vm} completed")
   backupList = backupList + f"{vm}[{backupNumber}] "
   nBackups += 1
+  nBackups = int(nBackups)
 
 def getSettings():
   global scpDestinations, cdir, compressProgram, compressExtension, compressTimeout, scpTimeout
@@ -375,6 +377,7 @@ for line in lines:
       else:
         plog(f"Not backing up {vm}")
 runSection('main','AfterBackup')
-plog(f"Completed {nBackups} backup{s(nBackups)} "
-     f"to {nCopies} destination{s(nCopies)} "
-     f"with {errorCount} error{s(errorCount)} : {backupList}")
+nBackups = int(nBackups)
+plog(f"Completed {nBackups} backup{'' if nBackups == 1 else 's'} "
+     f"to {nCopies} destination{'' if nCopies == 1 else 's'} "
+     f"with {errorCount} error{'' if errorCount == 1 else 's'} : {backupList}")
